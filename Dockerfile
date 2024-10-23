@@ -1,22 +1,14 @@
-FROM node:latest
+FROM node:8-alpine
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-# Set the working directory
-WORKDIR /app
-
-# Copy package.json and package-lock.json
-COPY package*.json ./
-
-# Install dependencies
+# Install app dependencies
+COPY package.json /usr/src/app
 RUN npm install
 
-# Copy the rest of the application
-COPY . .
+# Bundle app source
+COPY . /usr/src/app
 
-# Copy .env file
-COPY .env ./
-
-# Expose the port
-EXPOSE 80
-
-# Start the application
+# Expose publc port and run npm command
+EXPOSE 3000
 CMD ["npm", "start"]
